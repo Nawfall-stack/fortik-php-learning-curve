@@ -1,33 +1,40 @@
-
-# Challenge 1: Data Mahasiswa
+# Challenge 2: Buku Tamu Digital
 
 Penilaian dan masukan terkait tugas
 
 
 ## Penilaian
 
-1. **Clean Code & Separation of Concerns (Nilai: 4/10)**
-Prinsip utama Clean Code adalah Separation of Concerns (SoC). Kode kamu melanggar ini dengan keras.
+1. **FATAL FLAW: Keamanan (SQL Injection & Sanitasi)**
+Kamu melakukan kesalahan fatal dalam memahami keamanan database.
 
-- Masalah Utama: Kamu mencampuradukkan Data/Logic (PHP Array), Structure (HTML), dan Styling (CSS) dalam satu file. Ini disebut Spaghetti Code.
+- **Kesalahan**: Di fungsi `tambah()`, kamu menggunakan `htmlspecialchars()` untuk membersihkan input sebelum masuk database.
 
-- Dampaknya: Jika atasanmu minta data ini dipakai di halaman lain, kamu harus copy-paste array-nya. Jika datanya berubah, kamu harus edit di dua tempat. Itu sumber bug.
+    - **Why it's bad**: htmlspecialchars itu fungsi untuk mencegah XSS (Cross Site Scripting) saat output ke HTML, BUKAN untuk mencegah SQL Injection.
 
-- Logic di View: Mendefinisikan variable `$mahasiswa` di dalam `<body>` adalah praktik yang buruk. Logic/Data harus disiapkan sebelum HTML dirender, idealnya di bagian paling atas file atau di file terpisah.
+    - **Risk**: Jika input nama berisi karakter ' (kutip satu), query SQL kamu akan pecah (Syntax Error) atau bisa dimanipulasi peretas.
 
-2. **Best Practice & Standar HTML (Nilai: 5/10)**
-Ada beberapa standar industri yang terlewat:
+    - **Bad Data**: Kamu menyimpan data "sampah" di database. Jika nama saya O'Neil, kamu menyimpannya sebagai O&#039;Neil. Database harus menyimpan data MURNI/RAW. Sanitasi dilakukan saat data itu ditampilkan (Output), bukan saat disimpan (Input).
 
-- Semantic HTML: Tabel kamu tidak memiliki `<thead>` dan `<tbody>`. Browser modern memang akan memperbaikinya secara otomatis saat rendering, tapi secara kode, itu tidak valid dan menyulitkan pembaca layar (screen readers) atau parsing JavaScript nantinya.
+- **Solusi**: Gunakan Prepared Statements (PDO atau MySQLi prepare). Jangan pernah menyisipkan variabel langsung ke dalam string SQL `(VALUES ('$nama'...)` .
 
-- Accessibility (A11y): Tag `alt=""` pada gambar kosong. Ini dosa besar dalam web development. alt harus diisi, minimal dengan nama mahasiswa, agar jika gambar gagal load atau user tunanetra mengakses, mereka tahu itu gambar apa.
+2. **Isu Arsitektur: "Spaghetti Code"**
+Kamu mencampur logika database, logika bisnis, dan tampilan (HTML/CSS) dalam satu file.
 
-- Internal CSS: Menggunakan `<style>` di head boleh untuk prototipe cepat. Tapi untuk production, biasakan extract ke file .css terpisah agar browser bisa melakukan caching.
+- **Masalah**: Untuk proyek kecil seperti ini, mungkin bisa dimaafkan. Tapi kebiasaan ini membuat kode sulit dikembangkan. Jika kamu ingin mengubah desain tabel, kamu harus mengaduk-aduk logika PHP.
 
-3. **Efektivitas & Performa (Nilai: 6/10)**
-- Hardcoded Data: Array `$mahasiswa` di-hardcode. Ini tidak efektif. Dalam dunia nyata, data ini diambil dari Database (MySQL). Strukturmu saat ini tidak siap untuk dikoneksikan ke database tanpa merombak total struktur filenya. *(ini hanya masukan dari gemini)*
+- **Variable Scope**: Penggunaan `global $conn` di dalam fungsi adalah bad practice. Ini membuat fungsi kamu bergantung erat pada variabel global di luar, membuatnya sulit di-test dan rawan konflik nama variabel.
 
-- Looping: Penggunaan foreach sudah benar dan sintaks alternative syntax `(: ... endforeach;)` yang kamu pakai sudah tepat untuk templating. Ini satu-satunya poin plus yang solid di sini.
+3. **Kelemahan HTTP Method (GET vs POST)**
+- **Masalah**: Pada fitur hapus, kamu menggunakan method `GET (?id=1&action=delete)`.
+
+- **Risiko**:
+
+    - Mesin pencari (Googlebot) atau plugin browser bisa tidak sengaja "mengunjungi" link tersebut dan menghapus datamu.
+
+    - Serangan CSRF (Cross-Site Request Forgery) sangat mudah dilakukan. Orang bisa membuat link palsu yang jika kamu klik, datamu terhapus.
+
+- **Best Practice**: Aksi yang mengubah data (Insert, Update, Delete) harus selalu menggunakan method POST atau DELETE.
 
 
 ## Feedback
