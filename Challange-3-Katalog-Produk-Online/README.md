@@ -10,7 +10,7 @@ Website ini adalah **aplikasi manajemen produk sederhana** yang memiliki **Halam
 
 1. **Clone atau salin folder project** ke dalam folder `htdocs` di XAMPP/WAMP/Laragon:
    ```
-   htdocs/manajemen-produk/
+   htdocs/
    ```
 
 2. **Buka phpMyAdmin** di browser:
@@ -20,11 +20,11 @@ Website ini adalah **aplikasi manajemen produk sederhana** yang memiliki **Halam
 
 3. **Buat database baru** dengan nama:
    ```
-   db_produk
+   produk_db
    ```
 
 4. **Import file database**:
-   - Klik database `db_produk`
+   - Klik database `produk_db`
    - Pilih tab "Import"
    - Klik "Choose File" dan pilih file `produk.sql` dari folder project
    - Klik "Go" untuk mengimport
