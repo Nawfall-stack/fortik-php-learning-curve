@@ -1,243 +1,113 @@
-# Sistem Manajemen Produk
+# Sistem Manajemen Produk - Panduan Pengguna
 
-Website ini adalah **aplikasi manajemen produk berbasis PHP & MySQL** yang memiliki halaman **Admin (CRUD Produk)** dan **Halaman Depan (User)** dengan fitur pencarian produk.
-
-README ini menjelaskan **cara instalasi, penggunaan, dan struktur website** agar dapat digunakan dengan benar.
+Website ini adalah **aplikasi manajemen produk sederhana** yang memiliki **Halaman Depan (User)** untuk melihat dan mencari produk.
 
 ---
 
-## 🚀 Fitur Utama
+## 🌐 Cara Menggunakan Website sebagai Pengguna
 
-### 🔐 Halaman Admin (Wajib Login)
+### 1️⃣ Instalasi Awal
 
-* Login Admin
-* Tambah Produk
-* Edit Produk
-* Hapus Produk
-* Upload Gambar Produk
+1. **Clone atau salin folder project** ke dalam folder `htdocs` di XAMPP/WAMP/Laragon:
+   ```
+   htdocs/manajemen-produk/
+   ```
 
-Setiap produk memiliki:
+2. **Buka phpMyAdmin** di browser:
+   ```
+   http://localhost/phpmyadmin
+   ```
 
-* Nama Produk
-* Deskripsi
-* Harga
-* Gambar (upload file)
-
-### 🛒 Halaman User (Publik)
-
-* Melihat daftar produk
-* Mencari produk berdasarkan **nama**
-
----
-
-## 🧰 Teknologi yang Digunakan
-
-* **PHP Native**
-* **MySQL / MariaDB**
-* **Tailwind CSS** (UI)
-* **JavaScript** (UX)
-* **Font Awesome** (Icon)
-
----
-
-## 📁 Struktur Folder
-
-```
-/project-root
-│
-├── admin/
-│   ├── index.php        # Dashboard admin (list produk)
-│   ├── tambah.php       # Tambah produk
-│   ├── edit.php         # Edit produk
-│   ├── hapus.php        # Hapus produk
-│   └── login.php        # Login admin
-│
-├── assets/
-│   └── img/             # Folder gambar produk
-│
-├── config/
-│   └── database.php     # Koneksi database
-│
-├── index.php            # Halaman depan (user)
-└── README.md
-```
-
----
-
-## ⚙️ Instalasi
-
-### 1️⃣ Clone Project
-
-Clone repository atau salin folder project, lalu letakkan ke dalam:
-
-```
-htdocs/
-```
-
-Contoh:
-
-```
-htdocs/project-produk
-```
-
----
-
-### 2️⃣ Import Database
-
-1. Buka **phpMyAdmin**
-2. Buat database baru (bebas), contoh:
-
+3. **Buat database baru** dengan nama:
    ```
    db_produk
    ```
-3. Import file database:
 
-   ```
-   produk.sql
-   ```
+4. **Import file database**:
+   - Klik database `db_produk`
+   - Pilih tab "Import"
+   - Klik "Choose File" dan pilih file `produk.sql` dari folder project
+   - Klik "Go" untuk mengimport
 
-> File `produk.sql` sudah berisi struktur dan data awal.
+### 2️⃣ Akses Halaman Website
 
----
-
-### 3️⃣ Import Database
-
-1. Buka **phpMyAdmin**
-2. Buat database, misalnya:
-
-   ```
-   db_produk
-   ```
-3. Import file SQL (contoh struktur):
-
-```sql
-CREATE TABLE produk (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  nama VARCHAR(100) NOT NULL,
-  deskripsi TEXT,
-  harga INT NOT NULL,
-  gambar VARCHAR(255) NOT NULL
-);
+Buka browser dan ketik:
+```
+http://localhost/manajemen-produk/
 ```
 
----
-
-### 4️⃣ Konfigurasi Koneksi Database
-
-Edit file:
-
-```
-/config/database.php
-```
-
-Contoh:
-
-```php
-<?php
-$conn = mysqli_connect("localhost", "root", "", "db_produk");
-if (!$conn) {
-    die("Koneksi database gagal");
-}
-```
+Atau sesuaikan dengan nama folder yang Anda gunakan.
 
 ---
 
-## 🔑 Login Admin
+## 🔍 Fitur yang Tersedia untuk Pengguna
 
-Akses halaman admin melalui:
+### 📋 Melihat Daftar Produk
+- Saat membuka halaman utama, Anda akan melihat semua produk yang tersedia
+- Setiap produk menampilkan:
+  - Gambar produk
+  - Nama produk
+  - Harga
+  - Deskripsi singkat
 
-```
-http://localhost/project-root/admin/login.php
-```
+### 🔎 Mencari Produk
+1. Temukan **kotak pencarian** di bagian atas halaman
+2. Ketik **nama produk** yang ingin dicari
+   Contoh: "Laptop", "Mouse", "Keyboard"
+3. Hasil pencarian akan langsung muncul secara otomatis
 
-> Login menggunakan akun admin yang telah dibuat (sesuai implementasi login).
-
----
-
-## 🧑‍💻 Cara Menggunakan (Admin)
-
-### ➕ Menambah Produk
-
-1. Login sebagai admin
-2. Masuk ke Dashboard Admin
-3. Klik **Tambah Produk**
-4. Isi nama, deskripsi, harga, dan upload gambar
-5. Klik **Simpan**
-
----
-
-### ✏️ Mengedit Produk
-
-1. Masuk ke Dashboard Admin
-2. Klik tombol **Edit** pada produk
-3. Ubah data yang diinginkan
-4. (Opsional) Upload gambar baru
-5. Klik **Simpan Perubahan**
-
-> Jika gambar tidak diupload, gambar lama tetap digunakan.
+### 📱 Tampilan Responsif
+- Website dapat diakses dari berbagai perangkat:
+  - Komputer/Laptop
+  - Tablet
+  - Smartphone
 
 ---
 
-### 🗑️ Menghapus Produk
+## 💡 Tips Penggunaan
 
-1. Klik tombol **Hapus Produk**
-2. Konfirmasi penghapusan
-
-⚠️ Data produk dan gambar akan dihapus permanen.
-
----
-
-## 👀 Cara Menggunakan (User)
-
-1. Akses halaman utama:
-
-   ```
-   http://localhost/project-root/index.php
-   ```
-2. Lihat daftar produk
-3. Gunakan kolom **Search** untuk mencari produk berdasarkan nama
+- **Pencarian bersifat real-time** - tidak perlu menekan tombol enter
+- **Pencarian berdasarkan nama produk** - gunakan kata kunci yang spesifik untuk hasil lebih akurat
+- Jika tidak menemukan produk yang dicari, coba kata kunci yang lebih umum
+- Untuk melihat semua produk kembali, kosongkan kotak pencarian
 
 ---
 
-## 🛡️ Keamanan Dasar
+## ❓ Pertanyaan Umum
 
-* Halaman admin dilindungi oleh **session login**
-* Validasi upload gambar:
+**Q: Kenapa produk tidak muncul?**
+A: Pastikan database sudah diimport dengan benar dan file `produk.sql` berisi data produk.
 
-  * Maksimal 5MB
-  * Ekstensi: JPG, PNG, GIF
-* ID produk divalidasi untuk mencegah SQL Injection
+**Q: Kenapa gambar tidak tampil?**
+A: Pastikan folder `assets/img/` ada dan berisi file gambar yang sesuai.
 
----
-
-## 📌 Catatan Penting
-
-* Pastikan folder `assets/img/` memiliki permission **write**
-* Jangan menghapus file gambar langsung dari folder tanpa menghapus data produk
-* Selalu logout setelah selesai menggunakan halaman admin
+**Q: Bisa lihat kode sumber?**
+A: Ya, website ini open source untuk keperluan pembelajaran.
 
 ---
 
-## 📄 Lisensi
+## 📞 Bantuan
 
-Project ini dibuat untuk **pembelajaran dan tugas**.
-Bebas digunakan dan dimodifikasi.
+Jika mengalami masalah:
+1. Pastikan XAMPP/WAMP/Laragon sedang berjalan
+2. Database sudah dibuat dan diimport
+3. Folder project berada di dalam `htdocs`
 
 ---
 
-## ✨ Penutup
+## ✨ Tentang Website
 
-Website ini dibuat sebagai **sistem manajemen produk sederhana** namun lengkap, cocok untuk:
+Website ini cocok untuk:
+- Melihat katalog produk toko
+- Belajar tentang PHP dan MySQL dasar
+- Contoh implementasi sistem pencarian sederhana
 
-* Tugas kuliah
-* Latihan CRUD PHP
-* Dasar project e-commerce
+Website dibuat dengan:
+- PHP Native
+- MySQL Database
+- Tailwind CSS untuk desain
+- JavaScript untuk interaksi
 
-Jika ingin dikembangkan lebih lanjut:
+---
 
-* Pagination
-* Multi user
-* Role admin
-* MVC Framework
-
-Semoga bermanfaat 🚀
+Selamat menggunakan website manajemen produk! 🚀
